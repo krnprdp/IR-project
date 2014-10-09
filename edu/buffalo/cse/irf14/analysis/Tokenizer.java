@@ -46,13 +46,13 @@ public class Tokenizer {
 	 */
 	public TokenStream consume(String str) throws TokenizerException {
 
-		if (str == null)
+		if (str == null || str == "")
 			throw new TokenizerException();
 
 		StringTokenizer st = new StringTokenizer(str, delim);
 
 		TokenStream ts = new TokenStream(st);
-
+		
 		return ts;
 	}
 }
