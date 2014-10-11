@@ -13,10 +13,10 @@ public class Tokenizer {
 	/**
 	 * Default constructor. Assumes tokens are whitespace delimited
 	 */
-	String delim;
+	String delimitor;
 
 	public Tokenizer() {
-		delim = " ";
+		delimitor = " "; //space delimitor if no other is passed
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class Tokenizer {
 	 *            : The delimiter to be used
 	 */
 	public Tokenizer(String delim) {
-		this.delim = delim;
+		this.delimitor = delim; //using the delimitor passed as an argument
 	}
 
 	/**
@@ -48,11 +48,13 @@ public class Tokenizer {
 
 		if (str == null || str == "")
 			throw new TokenizerException();
+		else {
+			
+			StringTokenizer st = new StringTokenizer(str, delimitor);
 
-		StringTokenizer st = new StringTokenizer(str, delim);
+			TokenStream ts = new TokenStream(st);
 
-		TokenStream ts = new TokenStream(st);
-		
-		return ts;
+			return ts;
+		}
 	}
 }
