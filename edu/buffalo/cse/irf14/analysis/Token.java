@@ -69,10 +69,12 @@ public class Token {
 	 *            The token array to be merged
 	 */
 	protected void merge(Token... tokens) {
-		for (int i = 0; i < tokens.length; i++) {
-			termText = termText + " " + tokens[i];
+		if (tokens != null) {
+			for (int i = 0; i < tokens.length; i++) {
+				termText = termText + " " + tokens[i];
+			}
+			termBuffer = termText.toCharArray();
 		}
-		termBuffer = termText.toCharArray();
 	}
 
 	/**
