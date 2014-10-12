@@ -3,6 +3,13 @@
  */
 package edu.buffalo.cse.irf14.analysis;
 
+import edu.buffalo.cse.irf14.analysis.FilterRules.AccentRule;
+import edu.buffalo.cse.irf14.analysis.FilterRules.CapitalizationRule;
+import edu.buffalo.cse.irf14.analysis.FilterRules.DateRule;
+import edu.buffalo.cse.irf14.analysis.FilterRules.NumberRule;
+import edu.buffalo.cse.irf14.analysis.FilterRules.SpecialCharRule;
+import edu.buffalo.cse.irf14.analysis.FilterRules.StemmerRule;
+import edu.buffalo.cse.irf14.analysis.FilterRules.StopWordsRule;
 import edu.buffalo.cse.irf14.document.FieldNames;
 
 /**
@@ -22,7 +29,6 @@ public class AnalyzerFactory {
 	 * @return An instance of the factory
 	 */
 	public static AnalyzerFactory getInstance() {
-		//TODO: YOU NEED TO IMPLEMENT THIS METHOD
 		return null;
 	}
 	
@@ -38,7 +44,14 @@ public class AnalyzerFactory {
 	 * null otherwise
 	 */
 	public Analyzer getAnalyzerForField(FieldNames name, TokenStream stream) {
-		//TODO : YOU NEED TO IMPLEMENT THIS METHOD
-		return null;
+		TokenFilter tf = null;
+		tf = new CapitalizationRule(stream);
+		tf = new AccentRule(stream);
+		tf = new DateRule(stream);
+		tf = new NumberRule(stream);
+		tf = new SpecialCharRule(stream);
+		tf = new StopWordsRule(stream);
+		tf = new StemmerRule(stream);
+		return tf;
 	}
 }
