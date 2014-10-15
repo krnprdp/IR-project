@@ -29,9 +29,12 @@ public class TokenFilterFactory {
 	 * 
 	 * @return An instance of the factory
 	 */
+	private static TokenFilterFactory tff = null;
+
 	public static TokenFilterFactory getInstance() {
-		// TODO : YOU MUST IMPLEMENT THIS METHOD
-		return null;
+		if (tff == null)
+			tff = new TokenFilterFactory();
+		return tff;
 	}
 
 	/**
@@ -46,34 +49,26 @@ public class TokenFilterFactory {
 	 * @return The built {@link TokenFilter} instance
 	 */
 	public TokenFilter getFilterByType(TokenFilterType type, TokenStream stream) {
-		TokenFilter tf = null;
 		switch (type) {
 		case DATE:
-			tf = new DateRule(stream);
-			break;
+			return new DateRule(stream);
 		case CAPITALIZATION:
-			tf = new CapitalizationRule(stream);
-			break;
+			return new CapitalizationRule(stream);
 		case ACCENT:
-			tf = new AccentRule(stream);
-			break;
+			return new AccentRule(stream);
 		case STOPWORD:
-			tf = new StopWordsRule(stream);
-			break;
+			return new StopWordsRule(stream);
 		case NUMERIC:
-			tf = new NumberRule(stream);
-			break;
+			return new NumberRule(stream);
 		case SYMBOL:
-			tf = new SymbolRule(stream);
-			break;
+			return new SymbolRule(stream);
 		case SPECIALCHARS:
-			tf = new SpecialCharRule(stream);
-			break;
+			return new SpecialCharRule(stream);
 		case STEMMER:
-			tf = new StemmerRule(stream);
+			return new StemmerRule(stream);
+
 		default:
-			break;
+			return null;
 		}
-		return tf;
 	}
 }
