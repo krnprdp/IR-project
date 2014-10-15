@@ -16,7 +16,7 @@ public class Tokenizer {
 	String delimitor;
 
 	public Tokenizer() {
-		delimitor = " "; //space delimitor if no other is passed
+		delimitor = " "; // space delimitor if no other is passed
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class Tokenizer {
 	 *            : The delimiter to be used
 	 */
 	public Tokenizer(String delim) {
-		this.delimitor = delim; //using the delimitor passed as an argument
+		this.delimitor = delim; // using the delimitor passed as an argument
 	}
 
 	/**
@@ -49,10 +49,16 @@ public class Tokenizer {
 		if (str == null || str == "")
 			throw new TokenizerException();
 		else {
-			
-			StringTokenizer st = new StringTokenizer(str, delimitor);
+			String[] s = str.split(delimitor);
 
-			TokenStream ts = new TokenStream(st);
+			int size = s.length;
+			Token[] t = new Token[size];
+			
+			for (int i = 0; i < size; i++) {
+				t[i] = new Token(s[i]);
+			}
+
+			TokenStream ts = new TokenStream(t);
 
 			return ts;
 		}
