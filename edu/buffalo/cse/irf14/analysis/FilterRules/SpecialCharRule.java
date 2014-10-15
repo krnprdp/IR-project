@@ -34,13 +34,20 @@ public class SpecialCharRule extends TokenFilter {
 		int start = 0;
 
 		if (input.equals("^") || input.equals("&") || input.equals("-")
-				|| input.equals("=") || input.equals("*") || input.equals("%")
-				|| input.equals("|") || input.equals("/") || input.equals("\\")) {
+				|| input.equals("-") || input.equals("=") || input.equals("*")
+				|| input.equals("%") || input.equals("|") || input.equals("/")
+				|| input.equals("\\")) {
 			return "";
 		}
 
 		if (input.contains("%")) {
 			input = input.replaceAll("%", "");
+			return input;
+		}
+
+		if (input.contains("*") && input.contains("^")) {
+			input = input.replaceAll("\\^", "");
+			input = input.replaceAll("\\*", "");
 			return input;
 		}
 

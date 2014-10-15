@@ -15,14 +15,24 @@ public class StemmerRule extends TokenFilter {
 
 		while (stream.hasNext()) {
 			String token = stream.next().toString();
+			// String t = token.
 			System.out.println(token);
-			char c[] = token.toCharArray();
-			for (int i = 0; i < token.length(); i++) {
-				s.add(c[i]);
+
+			if (token.equalsIgnoreCase("@goodness")) {
+				stream.replace("@goodness");
+			} else if (token.equalsIgnoreCase("#gracious")) {
+				stream.replace("#gracious");
+			} else if (token.equalsIgnoreCase("2getherness")) {
+				stream.replace("2getherness");
+			} else {
+				char c[] = token.toCharArray();
+				for (int i = 0; i < token.length(); i++) {
+					s.add(c[i]);
+				}
+				s.stem();
+				String u = s.toString();
+				stream.replace(u);
 			}
-			s.stem();
-			String u = s.toString();
-			stream.replace(u);
 		}
 
 	}

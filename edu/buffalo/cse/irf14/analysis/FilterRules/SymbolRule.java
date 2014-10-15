@@ -22,6 +22,19 @@ public class SymbolRule extends TokenFilter {
 				token = token.trim();
 				stream.replace(token);
 			}
+
+			if (token.contains("won't")) {
+				token = token.replaceAll("won't", "will not");
+				token = token.trim();
+				stream.replace(token);
+			}
+
+			if (token.contains("shan't")) {
+				token = token.replaceAll("shan't", "shall not");
+				token = token.trim();
+				stream.replace(token);
+			}
+
 			if (token.contains("s'")) {
 				token = token.replaceAll("'", "");
 				token = token.trim();

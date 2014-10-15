@@ -21,7 +21,7 @@ public class CapitalizationRule extends TokenFilter {
 			s1 = stream.next().toString();
 			i++;
 			if (i != stream.size) {
-				s2 = stream.tlist.get(i);
+				s2 = stream.tlist.get(i).toString();
 			}
 			// s2 = stream.tokenList.get(i);
 			System.out.println(s1);
