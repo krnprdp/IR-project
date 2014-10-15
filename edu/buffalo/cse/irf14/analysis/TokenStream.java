@@ -4,8 +4,10 @@
 package edu.buffalo.cse.irf14.analysis;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 /**
@@ -15,17 +17,18 @@ import java.util.StringTokenizer;
  */
 public class TokenStream implements Iterator<Token> {
 
-	ArrayList<String> list = new ArrayList<String>();
-	int size, i = 0, pointer = 0;
+	public List<Token> tlist = new ArrayList<Token>();
+	Iterator<Token> itr;
+	public Token t;
+	public int i, size = 0, pointer = 0;
 
-	public TokenStream(StringTokenizer st) {
-		this.size = st.countTokens();
-		while (i < size) {
-			i++;
-			while (st.hasMoreElements()) {
-				list.add(st.nextToken());
-			}
+	public TokenStream(Token[] t) {
+		size = t.length;
+		for (i = 0; i < size; i++) {
+			tlist.add(t[i]);
+			// System.out.println(tlist.get(i).getTermText());
 		}
+		itr = tlist.iterator();
 	}
 
 	/**
@@ -37,12 +40,9 @@ public class TokenStream implements Iterator<Token> {
 	@Override
 	public boolean hasNext() {
 
-		if (list != null && !list.isEmpty()) {
-			if (pointer >= 0 && pointer < size) {
-				if (list.get(pointer) != null && list.get(pointer) != "")
-					return true;
-			}
-		}
+		if (pointer < size)
+			return itr.hasNext();
+
 		return false;
 	}
 
@@ -54,13 +54,17 @@ public class TokenStream implements Iterator<Token> {
 	 */
 	@Override
 	public Token next() {
-		Token t;
-		if (!(pointer == size)) {
-			t = new Token();
-			t.setTermText(list.get(pointer++));
-			return t;
+		try {
+			if (hasNext() && pointer < size) {
+				t = itr.next();
+				pointer++;
+			} else
+				t = null;
+		} catch (ConcurrentModificationException e) {
+
 		}
-		return null;
+
+		return t;
 	}
 
 	/**
@@ -70,10 +74,13 @@ public class TokenStream implements Iterator<Token> {
 	 */
 	@Override
 	public void remove() {
-		if (pointer != 0 && pointer < size) {
-			list.remove(pointer--);
+		try {
+			itr.remove();
+			pointer--;
 			size--;
+		} catch (Exception e) {
 		}
+		t = null;
 	}
 
 	/**
@@ -82,9 +89,10 @@ public class TokenStream implements Iterator<Token> {
 	 * reset() must always return true.
 	 */
 	public void reset() {
-		if (list != null) {
-			pointer = 0;
-		}
+		itr = null;
+		pointer = 0;
+		itr = tlist.iterator();
+
 	}
 
 	/**
@@ -99,18 +107,25 @@ public class TokenStream implements Iterator<Token> {
 	 *            : The stream to be appended
 	 */
 	public void append(TokenStream stream) {
-		// if (stream != null&&!stream.list.isEmpty()) {
-		// for (int i = 0; i < stream.list.size(); i++) {
-		// list.add(stream.list.get(i));
-		// }
-		// }
-		if (stream != null && !stream.list.isEmpty()) {
-			for (int i = 0; i < stream.list.size(); i++) {
-				if (stream.list.get(i) != null) {
-					list.add(stream.list.get(i));
-					size++;
+		try {
+			if (stream != null) {
+				for (int i = 0; i < stream.size; i++) {
+					tlist.add(stream.tlist.get(i));
 				}
+				size = size + stream.size;
+				int p = pointer;
+				reset();
+				int p2 = 0;
+				t = null;
+				while (itr.hasNext() && p2 < p) {
+					p2++;
+					t = itr.next();
+					// System.out.println(p2);
+				}
+
 			}
+		} catch (ConcurrentModificationException e) {
+
 		}
 	}
 
@@ -125,17 +140,11 @@ public class TokenStream implements Iterator<Token> {
 	 *         has been reached or the current Token was removed
 	 */
 	public Token getCurrent() {
-		if (pointer > 0) {
-			Token t = new Token();
-			String s = list.get(--pointer).trim();
-			t.setTermText(s);
-			return t;
-		}
-		return null;
+		return t;
 	}
 
 	public void replace(String s) {
-		list.set(pointer, s);
+		Token t1 = new Token(s);
+		tlist.set(pointer - 1, t1);
 	}
-
 }
