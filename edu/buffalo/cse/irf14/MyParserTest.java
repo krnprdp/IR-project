@@ -29,7 +29,7 @@ public class MyParserTest {
 	private static void showFiles(File[] files) {
 		for (File file : files) {
 			if (file.isDirectory()) {
-				// System.out.println("Directory: " + file.getName());
+				 System.out.println("Directory: " + file.getName());
 				d++;
 				showFiles(file.listFiles());
 			} else {
