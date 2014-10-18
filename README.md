@@ -1,4 +1,9 @@
 newsindexer
 ===========
 
-This is the starter code and tests for CSE 535 Fall 2014 Project 1
+This is the CSE535 Project 
+
+Authors:
+
+Pradeep Kiran: pchakki@buffalo.edu
+Sridhar Bandaru: sridharb@buffalo.edu
